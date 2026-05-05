@@ -23,10 +23,12 @@ import BooksCreate from "./pages/admin/books/Create";
 // genres
 import GenresIndex from "./pages/admin/genres/Index";
 import GenresCreate from "./pages/admin/genres/Create";
+import GenresEdit from "./pages/admin/genres/Edit";
 
 // authors
 import AuthorsIndex from "./pages/admin/authors/Index";
 import AuthorsCreate from "./pages/admin/authors/Create";
+import AuthorsEdit from "./pages/admin/authors/Edit";
 
 // transactions
 import TransactionsIndex from "./pages/admin/transactions/Index";
@@ -57,10 +59,12 @@ function App() {
           {/* genres */}
           <Route path="genres" element={<GenresIndex />} />
           <Route path="genres/create" element={<GenresCreate />} />
+          <Route path="genres/edit/:id" element={<GenresEdit />} />
 
           {/* authors */}
           <Route path="authors" element={<AuthorsIndex />} />
           <Route path="authors/create" element={<AuthorsCreate />} />
+          <Route path="authors/edit/:id" element={<AuthorsEdit />} />
 
           {/* transactions */}
           <Route path="transactions" element={<TransactionsIndex />} />

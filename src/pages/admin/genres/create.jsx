@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Create() {
   const [name, setName] = useState("");
@@ -25,14 +25,17 @@ export default function Create() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-5">Create Genre</h1>
+      <h1 className="mb-5 text-3xl font-bold text-white">Create Genre</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input type="text" placeholder="Genre Name" className="border p-3 w-full rounded" value={name} onChange={(e) => setName(e.target.value)} />
+      <form onSubmit={handleSubmit} className="space-x-2 space-y-4">
+        <input type="text" placeholder="Genre Name" className="w-full p-3 border rounded" value={name} onChange={(e) => setName(e.target.value)} />
 
-        <button type="submit" className="bg-blue-600 text-white px-5 py-3 rounded">
-          Save Genre
+        <button type="submit" className="px-3 py-1 text-white bg-blue-600 rounded">
+          Save Genres
         </button>
+        <Link to="/admin/genres" className="px-3 py-1 space-x-2 text-white bg-gray-500 rounded">
+          Cancel
+        </Link>
       </form>
     </div>
   );
