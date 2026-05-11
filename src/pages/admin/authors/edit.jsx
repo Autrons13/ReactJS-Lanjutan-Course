@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import api from "../../../_api";
 
 export default function Edit() {
   const [name, setName] = useState("");
@@ -9,50 +10,44 @@ export default function Edit() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const authors = JSON.parse(localStorage.getItem("authors")) || [];
+    getAuthor();
+  }, []);
 
-    const author = authors.find((item) => item.id == id);
-
-    if (author) {
-      setName(author.name);
+  const getAuthor = async () => {
+    try {
+      const response = await api.get(`/authors/${id}`);
+      setName(response.data.data.name);
+    } catch (err) {
+      console.log(err);
     }
-  }, [id]);
+  };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-
-    const authors = JSON.parse(localStorage.getItem("authors")) || [];
-
-    const updated = authors.map((item) => {
-      if (item.id == id) {
-        return {
-          ...item,
-          name,
-        };
-      }
-
-      return item;
-    });
-
-    localStorage.setItem("authors", JSON.stringify(updated));
-
-    navigate("/admin/authors");
+    try {
+      await api.put(`/authors/${id}`, {
+        name,
+      });
+      navigate("/admin/authors");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <div>
-      <h1 className="mb-5 text-3xl font-bold text-white">Edit Author</h1>
+      <h1 className="mb-5 text-3xl font-bold"> Edit Author</h1>
 
-      <form onSubmit={handleUpdate} className="space-x-2 space-y-4">
+      <form onSubmit={handleUpdate} className="space-y-4" v>
         <input type="text" className="w-full p-3 border rounded" value={name} onChange={(e) => setName(e.target.value)} />
 
-        <button type="submit" className="px-3 py-1 text-white bg-blue-600 rounded">
-          Save Genre
-        </button>
+        <div className="flex gap-3">
+          <button className="px-5 py-3 text-white bg-blue-600 rounded">Update Author</button>
 
-        <Link to="/admin/authors" className="px-3 py-1 text-white bg-gray-500 rounded">
-          Cancel
-        </Link>
+          <Link to="/admin/authors" className="px-5 py-3 text-white bg-gray-500 rounded">
+            Cancel
+          </Link>
+        </div>
       </form>
     </div>
   );

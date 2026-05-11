@@ -1,25 +1,74 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api from "../../../_api";
+
 export default function Index() {
+  const [books, setBooks] = useState([]);
+  useEffect(() => {
+    getBooks();
+  }, []);
+
+  const getBooks = async () => {
+    try {
+      const response = await api.get("/books");
+      setBooks(response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const confirmDelete = confirm("Yakin ingin menghapus book?");
+    if (confirmDelete) {
+      try {
+        await api.delete(`/books/${id}`);
+        getBooks();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     // Tambahkan class text-white di div pembungkus agar semua teks di dalamnya jadi putih secara default
-    <div className="text-white">
-      <h1 className="text-3xl font-bold mb-5">Books</h1>
+    <div>
+      <div className="flex items-center justify-between mb-5">
+        <h1 className="text-3xl font-bold">Books</h1>
 
-      <table className="w-full border border-gray-700">
-        <thead className="bg-gray-800">
+        <Link to="/admin/books/create" className="px-4 py-2 text-white bg-blue-600 rounded">
+          Add Book
+        </Link>
+      </div>
+
+      <table className="w-full border">
+        <thead className="bg-gray-100">
           <tr>
-            <th className="border border-gray-700 p-3">No</th>
-            <th className="border border-gray-700 p-3">Title</th>
-            <th className="border border-gray-700 p-3">Author</th>
+            <th className="p-3 border">No</th>
+            <th className="p-3 border">Title</th>
+            <th className="p-3 border">Author</th>
+            <th className="p-3 border">Genre</th>
+            <th className="p-3 border">Action</th>
           </tr>
         </thead>
 
-        {/* Pastikan warna background body tabel transparan atau pakai warna gelap */}
-        <tbody className="bg-transparent">
-          <tr>
-            <td className="border border-gray-700 p-3">1</td>
-            <td className="border border-gray-700 p-3">React JS</td>
-            <td className="border border-gray-700 p-3">John Doe</td>
-          </tr>
+        <tbody>
+          {books.map((item, index) => (
+            <tr key={item.id}>
+              <td className="p-3 border">{index + 1}</td>
+              <td className="p-3 border">{item.title}</td>
+              <td className="p-3 border">{item.author?.name}</td>
+              <td className="p-3 border">{item.genre?.name}</td>
+              <td className="p-3 space-x-2 border">
+                <Link to={`/admin/books/edit/${item.id}`} className="px-3 py-1 text-white bg-yellow-500 rounded">
+                  Edit
+                </Link>
+
+                <button onClick={() => handleDelete(item.id)} className="px-3 py-1 text-white bg-red-600 rounded">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
