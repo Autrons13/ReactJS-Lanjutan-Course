@@ -12,9 +12,12 @@ export default function Index() {
   const getAuthors = async () => {
     try {
       const response = await api.get("/authors");
-      setAuthors(response.data.data);
+      setAuthors(response.data.data || []);
+
+      console.log("data dari api:", response.data);
     } catch (err) {
       console.log(err);
+      setAuthors([]);
     }
   };
 
@@ -51,16 +54,16 @@ export default function Index() {
         </thead>
 
         <tbody>
-          {authors.map((item, index) => (
-            <tr key={item.id}>
+          {authors?.map((item, index) => (
+            <tr key={item.id || index}>
               <td className="p-3 border">{index + 1}</td>
 
               <td className="p-3 border">
                 {item.name}
                 <td className="p-3 space-x-2 border">
-                  <link to={`/admin/authors/edit/${item.id}`} className="px-3 py-1 text-white bg-yellow-500 rounded">
+                  <Link to={`/admin/authors/edit/${item.id}`} className="px-3 py-1 text-white bg-yellow-500 rounded">
                     Edit
-                  </link>
+                  </Link>
 
                   <button onClick={() => handleDelete(item.id)} className="px-3 py-1 text-white bg-red-600 rounded" onClick={() => handleDelete(item.id)} className="px-3 py-1 text-white bg-red-600 rounded"></button>
                 </td>

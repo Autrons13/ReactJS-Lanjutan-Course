@@ -1,12 +1,22 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 
 export default function AdminLayout() {
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    navigate("/login");
+  };
+
   return (
     <>
       <div className="antialiased bg-gray-50 dark:bg-gray-900">
         <nav className="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
-          <div className="flex flex-wrap justify-between items-center">
-            <div className="flex justify-start items-center">
+          <div className="flex flex-wrap items-center justify-between">
+            <div className="flex items-center justify-start">
               <button
                 data-drawer-target="drawer-navigation"
                 data-drawer-toggle="drawer-navigation"
@@ -26,7 +36,7 @@ export default function AdminLayout() {
                 <span className="sr-only">Toggle sidebar</span>
               </button>
               <a href="https://flowbite.com" className="flex items-center justify-between mr-4">
-                <img src="https://flowbite.s3.amazonaws.com/logo.svg" className="mr-3 h-8" alt="Flowbite Logo" />
+                <img src="https://flowbite.s3.amazonaws.com/logo.svg" className="h-8 mr-3" alt="Flowbite Logo" />
                 <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
               </a>
             </div>
@@ -48,14 +58,14 @@ export default function AdminLayout() {
                 <img className="w-8 h-8 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png" alt="user photo" />
               </button>
               {/* <!-- Dropdown menu --> */}
-              <div className="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl" id="dropdown">
-                <div className="py-3 px-4">
+              <div className="z-50 hidden w-56 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl" id="dropdown">
+                <div className="px-4 py-3">
                   <span className="block text-sm font-semibold text-gray-900 dark:text-white">Neil Sims</span>
                   <span className="block text-sm text-gray-900 truncate dark:text-white">name@flowbite.com</span>
                 </div>
                 <ul className="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
                   <li>
-                    <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                       Sign out
                     </a>
                   </li>
@@ -68,11 +78,11 @@ export default function AdminLayout() {
         {/* <!-- Sidebar --> */}
 
         <aside
-          className="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+          className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full bg-white border-r border-gray-200 pt-14 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
           aria-label="Sidenav"
           id="drawer-navigation"
         >
-          <div className="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
+          <div className="h-full px-3 py-5 overflow-y-auto bg-white dark:bg-gray-800">
             <ul className="space-y-2">
               <li>
                 <a href="admin" className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -90,7 +100,7 @@ export default function AdminLayout() {
                 </a>
               </li>
               <li>
-                <a href="/admin/users" className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                <a href="/admin/users" className="flex items-center p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                   <svg
                     aria-hidden="true"
                     className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -109,7 +119,7 @@ export default function AdminLayout() {
                 </a>
               </li>
               <li>
-                <a href="/admin/authors" className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                <a href="/admin/authors" className="flex items-center p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                   <svg
                     aria-hidden="true"
                     className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -128,7 +138,7 @@ export default function AdminLayout() {
                 </a>
               </li>
               <li>
-                <a href="/admin/genres" className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                <a href="/admin/genres" className="flex items-center p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                   <svg
                     aria-hidden="true"
                     className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -148,9 +158,9 @@ export default function AdminLayout() {
               </li>
             </ul>
 
-            <ul className="pt-5 mt-5 space-y-2 borderT border-gray-200 dark:border-gray-700">
+            <ul className="pt-5 mt-5 space-y-2 border-gray-200 borderT dark:border-gray-700">
               <li>
-                <a href="/admin/books" className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                <a href="/admin/books" className="flex items-center p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                   <svg
                     aria-hidden="true"
                     className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -169,7 +179,7 @@ export default function AdminLayout() {
                 </a>
               </li>
               <li>
-                <a href="/admin/transactions" className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                <a href="/admin/transactions" className="flex items-center p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                   <svg
                     aria-hidden="true"
                     className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -187,7 +197,7 @@ export default function AdminLayout() {
                 </a>
               </li>
               <li>
-                <a href="#" className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                <a href="#" className="flex items-center p-2 text-base font-medium text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                   <svg
                     aria-hidden="true"
                     className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -208,8 +218,8 @@ export default function AdminLayout() {
           </div>
         </aside>
 
-        <main className="p-4 md:ml-64 h-auto pt-20">
-          <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-auto px-4 pt-4 pb-6">
+        <main className="h-auto p-4 pt-20 md:ml-64">
+          <div className="h-auto px-4 pt-4 pb-6 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-600">
             <Outlet />
           </div>
         </main>

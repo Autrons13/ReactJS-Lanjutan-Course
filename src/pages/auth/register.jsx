@@ -24,7 +24,7 @@ export default function Register() {
       [e.target.name]: e.target.value,
     });
 
-    // hapus error saat user ngetik
+    
     setErrors({
       ...errors,
       [e.target.name]: "",
@@ -36,7 +36,7 @@ export default function Register() {
 
     let newErrors = {};
 
-    // validasi frontend
+    
     if (!formData.name) {
       newErrors.name = "Name must be filled";
     }
@@ -49,7 +49,7 @@ export default function Register() {
       newErrors.password = "Password must be filled";
     }
 
-    // kalau ada error jangan submit
+    
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -83,11 +83,11 @@ export default function Register() {
       <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-xl">
         <h1 className="mb-6 text-3xl font-bold text-center text-blue-600">Register</h1>
 
-        {/* pesan sukses */}
+        {/* PESAN BERHASIL */}
         {success && <div className="p-3 mb-4 text-green-700 bg-green-100 border border-green-400 rounded-lg">{success}</div>}
 
         <form onSubmit={handleSubmit}>
-          {/* NAME */}
+          {/* NAMA */}
           <div className="mb-4">
             <input type="text" name="name" placeholder="Fullname" value={formData.name} onChange={handleChange} className="w-full p-3 border rounded-lg" />
 

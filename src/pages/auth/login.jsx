@@ -29,10 +29,14 @@ export default function Login() {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
-      navigate("/admin");
+      const userRole = response.data.user.role;
+
+      if (userRole === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
-      // Menangkap pesan error spesifik dari backend (jika ada),
-      // kalau tidak ada, pakai pesan default lu.
       setError(err.response?.data?.message || "Email atau password salah");
     }
   };

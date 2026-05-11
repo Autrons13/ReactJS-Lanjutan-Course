@@ -11,9 +11,12 @@ export default function Index() {
   const getBooks = async () => {
     try {
       const response = await api.get("/books");
-      setBooks(response.data.data);
+      setBooks(response.data.data || []);
+
+      console.log("data dari api:", response.data);
     } catch (err) {
       console.log(err);
+      setBooks([]);
     }
   };
 
